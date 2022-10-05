@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 public class Menu {
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    ProductService service = new ProductService();
 
     public void telaPrincipal() {
         System.out.println("*".repeat(50));
@@ -32,19 +33,19 @@ public class Menu {
                 switch (opt) {
 
                     case 1:
-                        System.out.println("incluir");
+                        service.incluir();
                         break;
                     case 2:
-                        System.out.println("alterar");
+                        service.alterar();
                         break;
                     case 3:
-                        System.out.println("excluir");
+                        service.excluir();
                         break;
                     case 4:
-                        System.out.println("importar");
+                        service.importar();
                         break;
                     case 5:
-                        System.out.println("listar");
+                        service.listar();
                         break;
                     case 6:
                         System.out.println("Sair");
