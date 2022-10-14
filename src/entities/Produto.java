@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Product {
+public class Produto {
 
     private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private String codigo;
@@ -22,25 +22,12 @@ public class Product {
     private String cor;
     private String material;
     private int quantidade;
-    public Product() {
-    }
-    public Product(String nome, String categoria, BigDecimal valorBruto, int quantidade) {
-        this.codigo = getRandomString();
-        this.codigoDeBarras = gerarCodeBarras();
-        this.serie = gerarSerie();
-        this.nome = nome;
-        this.descricao = null;
-        this.categoria = categoria;
-        this.valorBruto = valorBruto;
-        this.impostos = BigDecimal.valueOf(1.0);
-        this.dataDeFabricacao = LocalDate.now();
-        this.dataDeValidade = null;
-        this.cor = null;
-        this.material = null;
-        this.quantidade = quantidade;
+
+    public Produto() {
     }
 
-    public Product(String codigo, String codigoDeBarras, String serie, String nome, String descricao, String categoria, BigDecimal valorBruto, BigDecimal impostos, LocalDate dataDeFabricacao, LocalDate dataDeValidade, String cor, String material, int quantidade) {
+
+    public Produto(String codigo, String codigoDeBarras, String serie, String nome, String descricao, String categoria, BigDecimal valorBruto, BigDecimal impostos, LocalDate dataDeFabricacao, LocalDate dataDeValidade, String cor, String material, int quantidade) {
         this.codigo = codigo;
         this.codigoDeBarras = codigoDeBarras;
         this.serie = serie;
@@ -57,7 +44,7 @@ public class Product {
     }
 
 
-    public Product(String codigo, String codigoDeBarras, String serie, String nome, String descricao, String categoria, BigDecimal valorBruto, BigDecimal impostos, LocalDate dataDeFabricacao, LocalDate dataDeValidade, String cor, String material) {
+    public Produto(String codigo, String codigoDeBarras, String serie, String nome, String descricao, String categoria, BigDecimal valorBruto, BigDecimal impostos, LocalDate dataDeFabricacao, LocalDate dataDeValidade, String cor, String material) {
         this.codigo = codigo;
         this.codigoDeBarras = codigoDeBarras;
         this.serie = serie;
@@ -177,6 +164,7 @@ public class Product {
         this.quantidade = quantidade;
     }
 
+
     public BigDecimal valoFinal() {
 
         BigDecimal porcentos = new BigDecimal("100.0");
@@ -191,43 +179,13 @@ public class Product {
         return (valor).setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public static String getRandomString() {
-        int tamanhoString = 8;
-        String alfaNumericos = "abcdefghijklmnopqrstuvwxyz" + "0123456789";
-        StringBuilder builder = new StringBuilder(tamanhoString);
-        for (int i = 0; i < tamanhoString; i++) {
-            int index = (int) (alfaNumericos.length() * Math.random());
-            builder.append(alfaNumericos.charAt(index));
-        }
-        return builder.toString();
-    }
-
-    public static String gerarCodeBarras() {
-
-        String numeros = "0123456789";
-        StringBuilder builder = new StringBuilder(12);
-        for (int i = 0; i < 12; i++) {
-            int index = (int) (numeros.length() * Math.random());
-            builder.append(numeros.charAt(index));
-        }
-        return builder.toString();
-    }
-
-    public static String gerarSerie() {
-        LocalDate date = LocalDate.now(); // sua instancia Date
-
-        int mes = date.getMonthValue();
-        int ano = date.getYear();
-        String serie = mes + "/" + ano;
-        return serie;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(codigo, product.codigo);
+        Produto produto = (Produto) o;
+        return Objects.equals(codigo, produto.codigo);
     }
 
     @Override

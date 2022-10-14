@@ -1,21 +1,20 @@
 package services;
 
-import entities.Product;
+import entities.Produto;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static services.ProductService.toBigDecimal;
+import static validations.Validacao.localDatFormat;
+import static validations.Validacao.toBigDecimal;
 
 public class SalvarArquivo {
 
@@ -25,40 +24,39 @@ public class SalvarArquivo {
         Scanner sc = new Scanner(System.in);
         String fileName = sc.nextLine();
 
-        List<Product> result;
+        List<Produto> result;
         try (Stream<String> lines = Files.lines(Paths.get(fileName))) {
             result = lines.skip(1)
                     .map(line -> line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
-                    .map(str -> new Product(str[0], str[1], str[2], str[3], str[4], str[5], toBigDecimal(str[6]), toBigDecimal(str[7]), localDatFormat(str[8]), localDatFormat(str[9]), str[10], str[11]))
+                    .map(str -> new Produto(str[0], str[1], str[2], str[3], str[4], str[5], toBigDecimal(str[6]), toBigDecimal(str[7]), localDatFormat(str[8]), localDatFormat(str[9]), str[10], str[11]))
                     .collect(Collectors.toList());
 
-           // result.forEach(System.out::println);
+            System.out.println("Desejar Salvar o arquivo: [S/N]");
+            char salvar = sc.next().charAt(0);
+            if (salvar == 's' || salvar == 'S') {
+                salvar(result);
+            } else {
+                System.out.println("Operação Cancelada");
+            }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("Desejar Salvar o arquivo: [S/N]");
-        char salvar = sc.next().charAt(0);
-        if (salvar == 's' || salvar == 'S') {
-            salvar(result);
-        } else {
-            System.out.println("Operação Cancelada");
+        } catch (IOException ignored) {
+            System.out.println("Caminho inválido: Tente novamente");
         }
 
     }
 
 
-    public static void salvar(List<Product> list) {
+    public static void salvar(List<Produto> list) {
 
         BuscarLista lista = new BuscarLista();
 
         String path = lista.path();
+        ProdutoServico servicos = new ProdutoServico();
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, false))) {
 
 
-            for (Product item : list) {
+            for (Produto item : list) {
                 bw.write(item.getCodigo() +
                         "," + item.getCodigoDeBarras() +
                         "," + item.getSerie() +
@@ -83,16 +81,4 @@ public class SalvarArquivo {
         }
 
     }
-
-
-    public static LocalDate localDatFormat(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        if (date.equals("n/a") || date == null) {
-            return null;
-        } else {
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        }
-    }
-
 }

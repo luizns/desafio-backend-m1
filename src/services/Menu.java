@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 public class Menu {
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    ProductService service = new ProductService();
 
     public void telaPrincipal() {
         System.out.println("*".repeat(50));
@@ -33,19 +32,19 @@ public class Menu {
                 switch (opt) {
 
                     case 1:
-                        service.incluir();
+                        ProdutoServico.incluir();
                         break;
                     case 2:
-                        service.alterar();
+                        ProdutoServico.alterar();
                         break;
                     case 3:
-                        service.excluir();
+                        ProdutoServico.excluir();
                         break;
                     case 4:
-                        service.importar();
+                        ProdutoServico.importar();
                         break;
                     case 5:
-                        service.listar();
+                        ProdutoServico.listar();
                         break;
                     case 6:
                         System.out.println("Sair");
@@ -55,7 +54,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Error: Digite um numero inteiro de Ex: [0-9]");
+                System.out.println("Error: Digite um número válido");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
